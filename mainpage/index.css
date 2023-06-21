@@ -1,0 +1,143 @@
+header, main, footer {
+    margin: auto;
+    width: 70vw;
+}
+
+/* HEADER & FOOTER */
+
+header, footer {
+    height: 8vh;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+header .main_logo {
+    flex-grow: 7;
+    text-align: center;
+    object-fit: scale-down;
+}
+
+header nav {
+    flex-grow: 15;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+a {
+    width: 30%;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border: 2px solid green;
+}
+
+footer a {
+    width: 15%;
+}
+
+/* MAIN */
+
+main, aside, article {
+    min-height: 85vh;
+    padding: 10px;
+    display: flex;
+    
+}
+
+/* ASIDE */
+
+aside {
+    width: 25%;
+    display: flex;
+    font-size: 20px;
+    border: 2px solid black;
+    margin-right: 5px;
+}
+
+form, fieldset {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+}
+
+fieldset {
+    font-size: 25px;
+    align-items: center;
+}
+
+fieldset label, fieldset select {
+    width: 100%;
+}
+
+fieldset select {
+    max-height: 5%;
+    font-size: 25px;
+}
+
+#filter_button {
+    margin: 10%;
+    width: 40%;
+    max-height: 5%;
+    font-size: 25px;
+
+}
+
+/* ARTICLE */
+
+article {
+    width: 75%;
+    height: 100%;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+article nav {
+    flex-grow: 1;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#search_section {
+    margin-top: 1%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    align-items: center;
+
+}
+
+#search_input {
+    width: 70%;
+    height: 100%;
+    font-size: 30px;
+}
+
+#search_submit {
+    width: auto;
+    height: 100%;
+    font-size: 30px;
+}
+
+#items_list {
+    flex-grow: 20;
+    border: 2px solid black;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.item {
+    height: 200px;
+    border: 2px solid red;
+}

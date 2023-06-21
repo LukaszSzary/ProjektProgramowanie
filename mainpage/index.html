@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Smaczne.pl</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="index.css" />
+</head>
+
+<body>
+    <header>
+        <img src="Logo.png" alt="Smaczne.pl" class="main_logo">
+        <nav id="main_navbar">
+            <a>Home</a>
+            <a>Info</a>
+        </nav>
+    </header>
+
+    <main>
+        <aside>
+            <form>
+                <fieldset>
+                    <legend>Filtry</legend>
+
+                    <label for="city">Miasto:</label>
+                    <select name="select_city">
+                        <option value="Gliwice">Gliwice</option>
+                        <option value="Katowice">Katowice</option>
+                        <option value="Siemianowice">Siemianowice Śląskie</option>
+                        <option value="Tychy">Tychy</option>
+                    </select>
+
+                    <label for="cuisine">Kuchnia:</label>
+                    <select name="select_cuisine">
+                        <option value="Wloska">Włoska</option>
+                        <option value="Indyjska">Indyjska</option>
+                        <option value="Chinska">Chińska</option>
+                        <option value="Rozne">Różne</option>
+                    </select>
+
+                    <label for="sort">Sortowanie po:</label>
+                    <select name="select_sort">
+                        <option value="Cena">Cena</option>
+                        <option value="Kuchnia">Kuchnia</option>
+                        <option value="Miasto">Miasto</option>
+                        <option value="Alfabetycznie">Alfabetycznie</option>
+                    </select>
+
+                    <label for="order">Kolejność:</label>
+                    <select name="select_order">
+                        <option value="Rosnaca">Rosnąca</option>
+                        <option value="Malejaca">Malejąca</option>
+                    </select>
+
+                    <input type="submit" value="Filtruj" id="filter_button">
+                    
+                </fieldset>
+            </form>
+            
+        </aside>
+
+        <article>
+            <nav id="items_navbar">
+                <label for="Wyszukiwanie">Szukaj restauracji po wybranych filtrach i zadanej frazie</label>
+                <div id="search_section">
+                    <input type="search" id="search_input">
+                    
+                    <input type="submit" id="search_submit" value="Szukaj">
+                </div>
+
+            </nav>
+
+            <div id="items_list">
+
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+
+
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <img src="Logo.png" alt="Smaczne.pl" class="main_logo">
+        <a href="#top">Powrót na górę strony</a>
+    </footer>
+</body>
