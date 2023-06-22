@@ -29,7 +29,7 @@ namespace ProjektProgramowanie.Controllers
           {
               return NotFound();
           }
-            return await _context.lokale.ToListAsync();
+            return await _context.lokale.Include(_=>_.Opinie).Include(_ => _.Dania).Include(_=>_.Promocje).ToListAsync();
         }
 
         // GET: api/lokale/5

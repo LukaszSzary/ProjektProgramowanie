@@ -174,11 +174,13 @@ namespace ProjektProgramowanie.Migrations
 
             modelBuilder.Entity("ProjektProgramowanie.Model.opinie", b =>
                 {
-                    b.HasOne("ProjektProgramowanie.Model.lokale", null)
+                    b.HasOne("ProjektProgramowanie.Model.lokale", "lokale")
                         .WithMany("Opinie")
                         .HasForeignKey("LokaleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("lokale");
                 });
 
             modelBuilder.Entity("ProjektProgramowanie.Model.promocjelokalu", b =>

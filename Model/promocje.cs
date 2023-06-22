@@ -6,7 +6,7 @@
         public string Opis { get; set; }
         public DateTime DataRozpoczęcia { get; set; }
         public DateTime DataZakończenia { get; set; }
-        //tu może być potrzebna IList
-        public List<promocjelokalu> Promocjelokalu { get; set; }
+        
+        public List<lokale> Lokale { get;  } = new();
     }
 }

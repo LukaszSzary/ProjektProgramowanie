@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjektProgramowanie.Model;
+using System.Reflection.Metadata;
 
 namespace ProjektProgramowanie
 {
@@ -16,11 +17,15 @@ namespace ProjektProgramowanie
         {
             options.UseSqlite(@"Data Source=./lokaleFinalSqlite.db");
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<oferta>().HasKey(sc => new { sc.LokaleId,sc.DaniaId});
-            modelBuilder.Entity<promocjelokalu>().HasKey(sc => new { sc.LokaleId, sc.PromocjeId });
+            modelBuilder.Entity<lokale>().HasMany(e => e.Dania).WithMany(e=>e.Lokale).UsingEntity<oferta>();
+            modelBuilder.Entity<lokale>().HasMany(e => e.Promocje).WithMany(e => e.Lokale).UsingEntity<promocjelokalu>();
+
+
+
         }
+        
     }
 }

@@ -11,7 +11,7 @@ using ProjektProgramowanie;
 namespace ProjektProgramowanie.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230621195629_InitialCreate")]
+    [Migration("20230622151123_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -177,11 +177,13 @@ namespace ProjektProgramowanie.Migrations
 
             modelBuilder.Entity("ProjektProgramowanie.Model.opinie", b =>
                 {
-                    b.HasOne("ProjektProgramowanie.Model.lokale", null)
+                    b.HasOne("ProjektProgramowanie.Model.lokale", "lokale")
                         .WithMany("Opinie")
                         .HasForeignKey("LokaleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("lokale");
                 });
 
             modelBuilder.Entity("ProjektProgramowanie.Model.promocjelokalu", b =>

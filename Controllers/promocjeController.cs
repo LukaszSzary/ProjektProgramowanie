@@ -29,7 +29,7 @@ namespace ProjektProgramowanie.Controllers
           {
               return NotFound();
           }
-            return await _context.promocje.ToListAsync();
+            return await _context.promocje.Include(_ => _.Lokale).ToListAsync();
         }
 
         // GET: api/promocje/5

@@ -10,6 +10,8 @@
         public int Ocena { get; set; }
 
         public int LokaleId { get; set; }
+        public lokale Lokale { get; set; } =new();
+
 
     }
 }
