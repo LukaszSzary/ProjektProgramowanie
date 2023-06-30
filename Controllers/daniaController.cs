@@ -29,7 +29,7 @@ namespace ProjektProgramowanie.Controllers
           {
               return NotFound();
           }
-            return await _context.dania.Include(_ => _.Lokale).ToListAsync();
+            return await _context.dania.ToListAsync();
         }
 
         // GET: api/dania/5

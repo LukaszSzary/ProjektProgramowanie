@@ -30,7 +30,7 @@ namespace ProjektProgramowanie.Controllers
           {
               return NotFound();
           }
-            return await _context.lokale.Include(_=>_.Opinie).Include(_ => _.Dania).Include(_=>_.Promocje).ToListAsync();
+            return await _context.lokale.ToListAsync();
         }
 
         // GET: api/lokale/5
@@ -54,10 +54,13 @@ namespace ProjektProgramowanie.Controllers
         //zwraca lokale z daną kuchnią
         // przyjmije jako parametry złożonego z nazw kuchni, miasta  np. WłoskaIndyjskaPolska 
         // Parametr "Any" reprezentuje wszystkie miasta/kuchnie w bazie
+        // paramet whetherPromocja określa czy metoda wypiszę lokale z aktywnymi promocjami true=>z false=>obojętnie
         // zwraca lokale z dana kuchnią i miastem 
-        [HttpGet("GetlokaleByKuchniaMiasto/{kuchnia},{miasto}")]
-        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchniaMiasto(string? kuchnia,string? miasto)
+        [HttpGet("GetlokaleByKuchniaMiasto/{kuchnia},{miasto},{whetherPromocja}")]
+        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchniaMiasto(string? kuchnia,string? miasto,bool whetherPromocja)
         {
+            List<lokale> lokaleToReturn = new List<lokale>();
+
             if (_context.lokale == null)
             {
                 return NotFound();
@@ -66,9 +69,9 @@ namespace ProjektProgramowanie.Controllers
 
             //jeśli parametr to null to ustawia go na stringa reprezentującego wszystkie rodzaje kuchni w bazie 
             if (kuchnia == null || kuchnia == "Any") {
-               var DistinctListKuchnie= _context.lokale.Select(x => x.Kuchnia).Distinct();
+                var distinctListKuchnie =  _context.lokale.Select(x => x.Kuchnia).Distinct();
                 StringBuilder  builderKuchnia = new StringBuilder();
-                foreach (string i in DistinctListKuchnie) { 
+                foreach (string i in distinctListKuchnie) { 
                 builderKuchnia.Append(i);
                 } 
                 kuchnia =builderKuchnia.ToString();
@@ -76,24 +79,77 @@ namespace ProjektProgramowanie.Controllers
             //jeśli parametr to null to ustawia go na stringa reprezentującego wszystkie rodzaje miasta w bazie 
             if (miasto == null || miasto=="Any")
             {
-                var DistinctListMiasta = _context.lokale.Select(x => x.Miasto).Distinct();
+                var distinctListMiasta = _context.lokale.Select(x => x.Miasto).Distinct();
                 StringBuilder builderMiasto = new StringBuilder();
-                foreach (string i in DistinctListMiasta)
+                foreach (string i in distinctListMiasta)
                 {
                     builderMiasto.Append(i);
                 }
                 miasto = builderMiasto.ToString();
             }
-;
-            var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia) && miasto.Contains(b.Miasto)).ToListAsync();
-            if (lokale == null)
+
+            
+            var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia) && miasto.Contains(b.Miasto)).Include(_ => _.Promocje).ToListAsync();
+
+
+            //na bazie listy lokale uzupełnia listę lokaleToReturn o lokale z aktywnymi promocjami i czyści im listę promocji
+            if (whetherPromocja)
+            {
+                foreach (var lokal in lokale)
+                {
+                    int activePromocje = 0;
+                    foreach (promocje k in lokal.Promocje)
+                    {   
+                        if (DateTime.Compare(k.DataRozpoczęcia, DateTime.Now) <= 0 && DateTime.Compare(k.DataZakończenia, DateTime.Now) >= 0)
+                        {
+                            activePromocje+=1;
+                        }
+                    }
+                    if (activePromocje != 0)
+                    {
+                        lokal.Promocje.Clear();
+                        lokaleToReturn.Add(lokal);
+                    }
+                }
+            }
+            else 
+            {
+                foreach (var lokal in lokale)
+                {
+                    lokal.Promocje.Clear();
+                    lokaleToReturn.Add( lokal);
+                }
+            }
+            //________________________
+
+            if (lokaleToReturn == null)
             {
                 return NotFound();
             }
 
-            return lokale;
+            return lokaleToReturn;
         }
+        //zwraca listę różnych miast w, których są lokale 
+        [HttpGet("GetMiasta")]
+        public async Task<ActionResult<IEnumerable<string>>> GetMiasta() {
+            if (_context.lokale == null)
+            {
+                return NotFound();
 
+            }
+            return await _context.lokale.Select(x => x.Miasto).Distinct().ToListAsync();
+        }
+        //zwraca listę różnych kuchni w lokali
+        [HttpGet("GetKuchnie")]
+        public async Task<ActionResult<IEnumerable<string>>> GetKuchnie()
+        {
+            if (_context.lokale == null)
+            {
+                return NotFound();
+
+            }
+            return await _context.lokale.Select(x => x.Kuchnia).Distinct().ToListAsync();
+        }
         private bool lokaleExists(int id)
         {
             return (_context.lokale?.Any(e => e.LokaleId == id)).GetValueOrDefault();
