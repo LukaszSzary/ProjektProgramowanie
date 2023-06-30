@@ -52,9 +52,11 @@ namespace ProjektProgramowanie.Controllers
         }
 
         //zwraca lokale z daną kuchnią
-        // przyjmije jako parametr stringa złożonego z nazw kuchni np. WłoskaIndyjskaPolska 
-        [HttpGet("GetlokaleByKuchnia/{kuchnia}")]
-        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchnia(string? kuchnia)
+        // przyjmije jako parametry złożonego z nazw kuchni, miasta  np. WłoskaIndyjskaPolska 
+        // Parametr "Any" reprezentuje wszystkie miasta/kuchnie w bazie
+        // zwraca lokale z dana kuchnią i miastem 
+        [HttpGet("GetlokaleByKuchniaMiasto/{kuchnia},{miasto}")]
+        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchniaMiasto(string? kuchnia,string? miasto)
         {
             if (_context.lokale == null)
             {
@@ -63,7 +65,7 @@ namespace ProjektProgramowanie.Controllers
             }
 
             //jeśli parametr to null to ustawia go na stringa reprezentującego wszystkie rodzaje kuchni w bazie 
-            if (kuchnia == null) {
+            if (kuchnia == null || kuchnia == "Any") {
                var DistinctListKuchnie= _context.lokale.Select(x => x.Kuchnia).Distinct();
                 StringBuilder  builderKuchnia = new StringBuilder();
                 foreach (string i in DistinctListKuchnie) { 
@@ -71,9 +73,19 @@ namespace ProjektProgramowanie.Controllers
                 } 
                 kuchnia =builderKuchnia.ToString();
             }
-
+            //jeśli parametr to null to ustawia go na stringa reprezentującego wszystkie rodzaje miasta w bazie 
+            if (miasto == null || miasto=="Any")
+            {
+                var DistinctListMiasta = _context.lokale.Select(x => x.Miasto).Distinct();
+                StringBuilder builderMiasto = new StringBuilder();
+                foreach (string i in DistinctListMiasta)
+                {
+                    builderMiasto.Append(i);
+                }
+                miasto = builderMiasto.ToString();
+            }
 ;
-            var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia)).ToListAsync();
+            var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia) && miasto.Contains(b.Miasto)).ToListAsync();
             if (lokale == null)
             {
                 return NotFound();

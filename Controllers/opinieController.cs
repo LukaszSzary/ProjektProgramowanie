@@ -35,8 +35,7 @@ namespace ProjektProgramowanie.Controllers
         }
         
         // GET: api/opinie/5
-       /* [HttpGet("{id}")]
-
+        [HttpGet("{id}")]
         public async Task<ActionResult<opinie>> Getopinie(int id)
         {
           if (_context.opinie == null)
@@ -51,11 +50,11 @@ namespace ProjektProgramowanie.Controllers
             }
 
             return opinie;
-        }*/
+        }
         
         //zwraca liste opini dla danego Id lokalu 
-        [HttpGet("{LokaleId}")]
-        public async Task<ActionResult<IEnumerable<opinie>>> GetopinieByLokaleId(int LokaleId)
+        [HttpGet("GetopiniebyLokaleId/{LokaleId}")]
+        public async Task<ActionResult<IEnumerable<opinie>>> GetopiniebyLokaleId(int LokaleId)
         {
             if (_context.opinie == null)
             {
