@@ -50,70 +50,22 @@ namespace ProjektProgramowanie.Controllers
             return lokale;
         }
 
-        // PUT: api/lokale/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Putlokale(int id, lokale lokale)
-        {
-            if (id != lokale.LokaleId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(lokale).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!lokaleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/lokale
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<lokale>> Postlokale(lokale lokale)
-        {
-          if (_context.lokale == null)
-          {
-              return Problem("Entity set 'DataContext.lokale'  is null.");
-          }
-            _context.lokale.Add(lokale);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("Getlokale", new { id = lokale.LokaleId }, lokale);
-        }
-
-        // DELETE: api/lokale/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletelokale(int id)
+        //zwraca lokale z daną kuchnią
+        [HttpGet("GetlokaleByKuchnia/{kuchnia}")]
+        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchnia(String kuchnia)
         {
             if (_context.lokale == null)
             {
                 return NotFound();
             }
-            var lokale = await _context.lokale.FindAsync(id);
+            var lokale = await _context.lokale.Where(b => b.Kuchnia == kuchnia).ToListAsync();
+
             if (lokale == null)
             {
                 return NotFound();
             }
 
-            _context.lokale.Remove(lokale);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return lokale;
         }
 
         private bool lokaleExists(int id)

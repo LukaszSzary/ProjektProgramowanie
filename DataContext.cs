@@ -22,9 +22,6 @@ namespace ProjektProgramowanie
         {
             modelBuilder.Entity<lokale>().HasMany(e => e.Dania).WithMany(e=>e.Lokale).UsingEntity<oferta>();
             modelBuilder.Entity<lokale>().HasMany(e => e.Promocje).WithMany(e => e.Lokale).UsingEntity<promocjelokalu>();
-
-
-
         }
         
     }
