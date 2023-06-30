@@ -52,6 +52,7 @@ namespace ProjektProgramowanie.Controllers
         }
 
         //zwraca lokale z daną kuchnią
+        // przyjmije jako parametr stringa złożonego z nazw kuchni np. WłoskaIndyjskaPolska 
         [HttpGet("GetlokaleByKuchnia/{kuchnia}")]
         public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchnia(string? kuchnia)
         {
@@ -60,16 +61,18 @@ namespace ProjektProgramowanie.Controllers
                 return NotFound();
                 
             }
-            if (kuchnia == "test") {
-               var k= _context.lokale.Select(x => x.Kuchnia).Distinct();
+
+            //jeśli parametr to null to ustawia go na stringa reprezentującego wszystkie rodzaje kuchni w bazie 
+            if (kuchnia == null) {
+               var DistinctListKuchnie= _context.lokale.Select(x => x.Kuchnia).Distinct();
                 StringBuilder  builderKuchnia = new StringBuilder();
-                foreach (string i in k) { 
+                foreach (string i in DistinctListKuchnie) { 
                 builderKuchnia.Append(i);
                 } 
                 kuchnia =builderKuchnia.ToString();
             }
 
-            //var lokale = await _context.lokale.Where(b => b.Kuchnia == kuchnia).ToListAsync();
+;
             var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia)).ToListAsync();
             if (lokale == null)
             {
