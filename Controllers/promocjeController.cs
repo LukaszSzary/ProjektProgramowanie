@@ -50,6 +50,40 @@ namespace ProjektProgramowanie.Controllers
             return promocje;
         }
 
+        //Zwraca listę obowiązujących promocji dla danego id lokalu
+        [HttpGet("GetPromocjeByLokaleId/{id}")]
+        public async Task<ActionResult<IEnumerable<promocje>>> GetPromocjeByLokaleId(int id)
+        {
+            List<promocje> promocjeToreturn = new List<promocje>();
+            if (_context.lokale == null)
+            {
+                return NotFound();
+            }
+
+            var lokal = await _context.lokale.FindAsync(id);
+
+            if (lokal == null || lokal.Promocje == null)
+            {
+                return NotFound();
+            }
+
+            //na podstawie promocji lokalu uzupełnie promocjeToReturn aktualnymi promocjami
+            foreach (promocje promocja in lokal.Promocje) 
+            {
+                if (DateTime.Compare(promocja.DataRozpoczęcia, DateTime.Now) <= 0 && DateTime.Compare(promocja.DataZakończenia, DateTime.Now) >= 0)
+                {
+                    promocjeToreturn.Add(promocja);
+                }
+            }
+
+            if (promocjeToreturn==null)
+            {
+                return NotFound();
+            }
+
+            return promocjeToreturn;
+        }
+
         private bool promocjeExists(int id)
         {
             return (_context.promocje?.Any(e => e.PromocjeId == id)).GetValueOrDefault();

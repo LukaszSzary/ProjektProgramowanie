@@ -85,11 +85,12 @@ namespace ProjektProgramowanie.Controllers
                 return NotFound();
             }
 
-            foreach (opinie op in opinie) {
+            foreach (opinie op in opinie)
+            {
                 avgOcena += op.Ocena;
             }
             avgOcena = avgOcena / opinie.Count();
-            return  avgOcena.ToString();
+            return avgOcena.ToString();
         }
         private bool opinieExists(int id)
         {

@@ -50,42 +50,49 @@ namespace ProjektProgramowanie.Controllers
             return dania;
         }
 
+        //Zwraca średnią cenę(jako string) dań dla danego id lokalu
+        [HttpGet("GetAvdCenaForLokal/{id}")]
+        public async Task<ActionResult<string>> GetAvdCenaForLokal(int id)
+        {
+            double avgCena = 0;
+            if (_context.lokale == null)
+            {
+                return NotFound();
+            }
+            var lokal = await _context.lokale.FindAsync(id);
+
+            if (lokal == null || lokal.Dania==null)
+            {
+                return NotFound();
+            }
+
+            foreach (dania danie in lokal.Dania)
+            {
+                avgCena += danie.Cena;
+            }
+            avgCena = avgCena / lokal.Dania.Count();
+            return avgCena.ToString();
+        }
+
         //Zwraca listę dań dla danego id lokalu
         [HttpGet("GetDaniaByLokaleId/{id}")]
         public async Task<ActionResult<IEnumerable<dania>>> GetDaniaByLokaleId(int id)
         {
-            List<dania> daniaToReturn = new List<dania>();
-            if (_context.dania == null)
+            if (_context.lokale == null)
             {
                 return NotFound();
             }
 
-            var dania = await _context.dania.Include(b => b.Lokale).ToListAsync();
+            var lokal = await _context.lokale.FindAsync(id);
 
-            foreach (dania danie in dania)
-            {
-                bool ifIdLokalMaches = false;
-                foreach (lokale lokal in danie.Lokale)
-                {
-                    if (lokal.LokaleId == id)
-                    {
-                        ifIdLokalMaches = true;
-                        break;
-                    }
-                }
-                if (ifIdLokalMaches)
-                {
-                    danie.Lokale.Clear();
-                    daniaToReturn.Add(danie);
-                }
-            }
-            if (daniaToReturn == null)
+            if ( lokal==null || lokal.Dania == null )
             {
                 return NotFound();
             }
 
-            return daniaToReturn;
+            return lokal.Dania;
         }
+
 
         private bool daniaExists(int id)
         {

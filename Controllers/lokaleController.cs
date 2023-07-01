@@ -155,7 +155,9 @@ namespace ProjektProgramowanie.Controllers
 
             return lokaleToReturn;
         }
-        //zwraca listę różnych miast w, których są lokale 
+        
+        
+        //zwraca listę różnych miast w, których są lokale     
         [HttpGet("GetMiasta")]
         public async Task<ActionResult<IEnumerable<string>>> GetMiasta() {
             if (_context.lokale == null)
@@ -165,7 +167,9 @@ namespace ProjektProgramowanie.Controllers
             }
             return await _context.lokale.Select(x => x.Miasto).Distinct().ToListAsync();
         }
-        //zwraca listę różnych kuchni w lokali
+        
+        
+        //zwraca listę różnych kuchni w lokalach
         [HttpGet("GetKuchnie")]
         public async Task<ActionResult<IEnumerable<string>>> GetKuchnie()
         {
@@ -177,29 +181,8 @@ namespace ProjektProgramowanie.Controllers
             return await _context.lokale.Select(x => x.Kuchnia).Distinct().ToListAsync();
         }
 
-        //Zwraca średnią cenę(jako string) dań dla danego id lokalu
-        [HttpGet("GetAvdCenaForLokal/{id}")]
-        public async Task<ActionResult<string>> GetAvdCenaForLokal(int id)
-        {
-            double avgCena = 0;
-            if (_context.opinie == null)
-            {
-                return NotFound();
-            }
-            lokale lokal = await _context.lokale.FindAsync(id);
-
-            if (lokal == null)
-            {
-                return NotFound();
-            }
-
-            foreach (dania danie in lokal.Dania)
-            {
-                avgCena += danie.Cena;
-            }
-            avgCena = avgCena / lokal.Dania.Count();
-            return avgCena.ToString();
-        }
+       
+        
         private bool lokaleExists(int id)
         {
             return (_context.lokale?.Any(e => e.LokaleId == id)).GetValueOrDefault();
