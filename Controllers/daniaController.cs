@@ -25,10 +25,10 @@ namespace ProjektProgramowanie.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<dania>>> Getdania()
         {
-          if (_context.dania == null)
-          {
-              return NotFound();
-          }
+            if (_context.dania == null)
+            {
+                return NotFound();
+            }
             return await _context.dania.ToListAsync();
         }
 
@@ -36,10 +36,10 @@ namespace ProjektProgramowanie.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<dania>> Getdania(int id)
         {
-          if (_context.dania == null)
-          {
-              return NotFound();
-          }
+            if (_context.dania == null)
+            {
+                return NotFound();
+            }
             var dania = await _context.dania.FindAsync(id);
 
             if (dania == null)
@@ -50,6 +50,42 @@ namespace ProjektProgramowanie.Controllers
             return dania;
         }
 
+        //Zwraca listę dań dla danego id lokalu
+        [HttpGet("GetDaniaByLokaleId/{id}")]
+        public async Task<ActionResult<IEnumerable<dania>>> GetDaniaByLokaleId(int id)
+        {
+            List<dania> daniaToReturn = new List<dania>();
+            if (_context.dania == null)
+            {
+                return NotFound();
+            }
+
+            var dania = await _context.dania.Include(b => b.Lokale).ToListAsync();
+
+            foreach (dania danie in dania)
+            {
+                bool ifIdLokalMaches = false;
+                foreach (lokale lokal in danie.Lokale)
+                {
+                    if (lokal.LokaleId == id)
+                    {
+                        ifIdLokalMaches = true;
+                        break;
+                    }
+                }
+                if (ifIdLokalMaches)
+                {
+                    danie.Lokale.Clear();
+                    daniaToReturn.Add(danie);
+                }
+            }
+            if (daniaToReturn == null)
+            {
+                return NotFound();
+            }
+
+            return daniaToReturn;
+        }
 
         private bool daniaExists(int id)
         {
