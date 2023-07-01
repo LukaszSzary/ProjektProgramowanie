@@ -54,43 +54,61 @@ namespace ProjektProgramowanie.Controllers
         [HttpGet("GetAvdCenaForLokal/{id}")]
         public async Task<ActionResult<string>> GetAvdCenaForLokal(int id)
         {
-            double avgCena = 0;
+            double avgCena = 0.00d;
+            int howMany = 0;
             if (_context.lokale == null)
             {
                 return NotFound();
             }
-            var lokal = await _context.lokale.FindAsync(id);
+            var lokal = await _context.lokale.Where(b => b.LokaleId == id).Include(b => b.Dania).ToListAsync();
 
-            if (lokal == null || lokal.Dania==null)
+            if (lokal == null )
             {
                 return NotFound();
             }
 
-            foreach (dania danie in lokal.Dania)
+            foreach (lokale loc in lokal)
             {
-                avgCena += danie.Cena;
+                foreach (var da in loc.Dania)
+                {
+                    avgCena += da.Cena;
+                    howMany++;
+                }
             }
-            avgCena = avgCena / lokal.Dania.Count();
-            return avgCena.ToString();
+            avgCena = avgCena / howMany;
+            return String.Format("{0:0.00}", avgCena); ;
         }
-
+        
         //Zwraca listę dań dla danego id lokalu
         [HttpGet("GetDaniaByLokaleId/{id}")]
         public async Task<ActionResult<IEnumerable<dania>>> GetDaniaByLokaleId(int id)
         {
+            List<dania> daniaToReturn = new List<dania>();
             if (_context.lokale == null)
             {
                 return NotFound();
             }
 
-            var lokal = await _context.lokale.FindAsync(id);
+            var lokal = await  _context.lokale.Where(b => b.LokaleId == id).Include(b=>b.Dania).ToListAsync();
 
-            if ( lokal==null || lokal.Dania == null )
+            if ( lokal==null  )
             {
                 return NotFound();
             }
-
-            return lokal.Dania;
+            
+            foreach(lokale loc in lokal)
+            {
+                foreach (var da in loc.Dania)
+                {
+                    da.Lokale.Clear();
+                    daniaToReturn.Add(da);
+                }
+            }
+            if (daniaToReturn == null)
+            {
+                return NotFound();
+            }
+            return daniaToReturn;
         }
 
 

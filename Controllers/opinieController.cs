@@ -53,9 +53,10 @@ namespace ProjektProgramowanie.Controllers
         }
         
         //zwraca liste opini dla danego Id lokalu 
-        [HttpGet("GetopiniebyLokaleId/{LokaleId}")]
-        public async Task<ActionResult<IEnumerable<opinie>>> GetopiniebyLokaleId(int lokaleId)
+        [HttpGet("GetOpiniebyLokaleId/{lokaleId}")]
+        public async Task<ActionResult<IEnumerable<opinie>>> GetOpiniebyLokaleId(int lokaleId)
         {
+            List<opinie> opinieToReturn = new List<opinie>();
             if (_context.opinie == null)
             {
                 return NotFound();
@@ -66,21 +67,21 @@ namespace ProjektProgramowanie.Controllers
             {
                 return NotFound();
             }
-            
+
             return opinie;
         }
         //zwraca średnią wartość(jako string) ocen dla lokalu o danym id
-        [HttpGet("GetAvgOceneByLokaleId/{LokaleId}")]
+        [HttpGet("GetAvgOceneByLokaleId/{lokaleId}")]
         public async Task<ActionResult<string>> GetAvgOceneByLokaleId(int lokaleId)
         {
-            double avgOcena = 0;
+            double avgOcena = 0.00d;
             if (_context.opinie == null)
             {
                 return NotFound();
             }
             var opinie = await _context.opinie.Where(b => b.LokaleId == lokaleId).ToListAsync();
 
-            if (opinie == null)
+            if (opinie == null )
             {
                 return NotFound();
             }
@@ -90,8 +91,9 @@ namespace ProjektProgramowanie.Controllers
                 avgOcena += op.Ocena;
             }
             avgOcena = avgOcena / opinie.Count();
-            return avgOcena.ToString();
+            return String.Format("{0:0.##}", avgOcena); ;
         }
+      
         private bool opinieExists(int id)
         {
             return (_context.opinie?.Any(e => e.OpinieId == id)).GetValueOrDefault();
