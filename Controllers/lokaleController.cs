@@ -56,7 +56,7 @@ namespace ProjektProgramowanie.Controllers
         // Parametr "Any" reprezentuje wszystkie miasta/kuchnie w bazie
         // paramet whetherPromocja określa czy metoda wypiszę lokale z aktywnymi promocjami true=>z false=>obojętnie
         //Parametry begin/endScopeCena określają przedział cenowy, który musi spełnić przynajmniej jedno danie w lokalu, 
-        //jeśli będą null to begin. zostanie ustawony na 0 a end. na maxymalną wartość dla doubla 
+        //jeśli będą null to begin. zostanie ustawony na 0 a end. na maksymalną wartość dla doubla 
         // zwraca lokale z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
         [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScope/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena}")]
         public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena)
