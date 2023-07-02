@@ -1,0 +1,52 @@
+.result-dish-table, .result-opinion-table {
+    width: 100%;
+}
+
+.dish-headers td {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.dish-price {
+    color: gold;
+    text-align: right;
+}
+
+#opinions-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5%;
+    width: 100%;
+}
+
+#opinions-menu p {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    padding-top: 1.25%;
+    font-size: large;
+    margin-right: 5%;
+}
+
+#opinions-menu p:hover {
+    cursor: pointer;
+}
+
+.opinion-rating, .opinion-user {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.opinion-rating {
+    color: red;
+}
+
+.opinion-date {
+    font-size: large;
+    text-align: right;
+    color: green;
+    font-weight: bold;
+}

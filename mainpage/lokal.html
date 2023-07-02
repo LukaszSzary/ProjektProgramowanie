@@ -4,6 +4,7 @@
     <title>Smaczne.pl</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="lokal.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
     <!-- slider -->
@@ -28,25 +29,47 @@
     </header>
     <main>
         <article>
+            <div id="opinions-menu">
+                <p onclick="console.log('jd')">Opinie</p>
+                <p>Menu</p>
+            </div>
             <!-- results -->
-            <div class="result">
-                <section class="result-headers" onclick="funkcja()">
-                    <h2>Masala House</h2>
-                    <h1>Katowice ul. Jana Pawła 2 nr. 6</h1>
-                </section>
-                <table class="result-table">
+            <div class="result-dish">
+                <table class="result-dish-table">
+                    <tbody>
+                      <tr class="dish-headers">
+                        <td>Pizza po Węgiersku</td>
+                        <td class="dish-price">32,26zł</td>
+                      </tr>
+                      <tr>
+                        <td class="dish-desc" colspan="2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="result-opinion">
+                <table class="result-opinion-table">
                     <tbody>
                       <tr>
-                        <td>Kuchnia:</td>
-                        <td class="result-table-value">Włoska</td>
+                        <td class="opinion-user" colspan="2">Major Suchodolski</td>
                       </tr>
                       <tr>
-                        <td>Średnia opinia:</td>
-                        <td class="result-table-value">6/10</td>
+                        <td class="opinion-rating">6/10</td>
+                        <td class="opinion-date">2023-12-25</td>
                       </tr>
                       <tr>
-                        <td>Średnia cena:<br></td>
-                        <td class="result-table-value">25,40zł</td>
+                        <td class="opinion-desc" colspan="2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </td>
                       </tr>
                     </tbody>
                 </table>
