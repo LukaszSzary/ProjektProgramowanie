@@ -109,7 +109,7 @@ aside select {
 
 /* =============== result =============== */
 
-.result {
+.result, .result-opinion, .result-dish {
     width: 60%;
     margin-left: 10%;
     margin-top: 5%;
@@ -133,3 +133,4 @@ aside select {
     text-align: center;
     color: green;
 }
+
