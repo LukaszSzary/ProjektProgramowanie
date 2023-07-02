@@ -1,143 +1,135 @@
-header, main, footer {
-    margin: auto;
-    width: 70vw;
+body, html {
+    height: 100%;
+    font-family: 'Courier New', Courier, monospace;
 }
 
-/* HEADER & FOOTER */
-
-header, footer {
-    height: 8vh;
-    border: 2px solid black;
+header, main {
+    width: 80%;
+    margin-left: 10%;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
 }
 
-header .main_logo {
-    flex-grow: 7;
-    text-align: center;
-    object-fit: scale-down;
+/* =============== header =============== */
+
+header {
+    height: 10%;
 }
 
-header nav {
-    flex-grow: 15;
+#searchbar-form {
+    width: 70%;
+    height: 50%;
     display: flex;
-    flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
 
-a {
+#search-bar {
+    width: 85%;
+    height: 100%;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#search-button {
+    width: 10%;
+    height: 100%;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.logo {
     width: 30%;
-    text-align: center;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    border: 2px solid green;
+    height: 100%;
 }
 
-footer a {
-    width: 15%;
+
+/* =============== main =============== */
+
+main {
+    height: 70%;
 }
-
-/* MAIN */
-
-main, aside, article {
-    min-height: 85vh;
-    padding: 10px;
-    display: flex;
-    
-}
-
-/* ASIDE */
-
-aside {
-    width: 25%;
-    display: flex;
-    font-size: 20px;
-    border: 2px solid black;
-    margin-right: 5px;
-}
-
-form, fieldset {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 10px;
-}
-
-fieldset {
-    font-size: 25px;
-    align-items: center;
-}
-
-fieldset label, fieldset select {
-    width: 100%;
-}
-
-fieldset select {
-    max-height: 5%;
-    font-size: 25px;
-}
-
-#filter_button {
-    margin: 10%;
-    width: 40%;
-    max-height: 5%;
-    font-size: 25px;
-
-}
-
-/* ARTICLE */
 
 article {
-    width: 75%;
-    height: 100%;
-    border: 2px solid black;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-article nav {
-    flex-grow: 1;
-    font-size: 35px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-#search_section {
-    margin-top: 1%;
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    align-items: center;
-
-}
-
-#search_input {
     width: 70%;
     height: 100%;
-    font-size: 30px;
 }
 
-#search_submit {
-    width: auto;
+/* =============== aside =============== */
+
+aside {
+    width: 30%;
     height: 100%;
-    font-size: 30px;
+    padding-top: 5%;
 }
 
-#items_list {
-    flex-grow: 20;
-    border: 2px solid black;
+#filters-form {
+    margin-left: 15%;
+    margin-top: 5%;
     display: flex;
-    gap: 5px;
     flex-direction: column;
+    width: 70%;
+    height: 100%;
 }
 
-.item {
-    height: 200px;
-    border: 2px solid red;
+#filters-form label {
+    height: 5%;
+    width: 5%;
+    margin: 5px;
+    margin-left: 0;
+    font-size: x-large;
+}
+
+#filters-form select {
+    height: 5%;
+    width: 70%;
+    margin-left: 15%;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.chosen-container-multi {
+    height: 5%;
+    width: 70%;
+    margin-left: 15%;
+    margin-bottom: 2%;
+}
+
+.select-container {
+    margin-bottom: 5%;
+}
+
+aside select {
+    margin-bottom: 5%;
+}
+
+.search-choice {
+    font-size: large;
+}
+
+/* =============== result =============== */
+
+.result {
+    width: 60%;
+    margin-left: 10%;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px gray solid;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+.result:hover {
+    cursor: pointer;
+}
+
+.result h1 {
+    color: gray;
+}
+
+.result-table-value {
+    text-align: center;
+    color: green;
 }

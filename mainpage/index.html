@@ -4,87 +4,79 @@
     <title>Smaczne.pl</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="index.css" />
-    
+    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <script src="script.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<script src="chosenSetup.js" defer></script>
+
     <header>
-        <img src="Logo.png" alt="Smaczne.pl" class="main_logo">
-        <nav id="main_navbar">
-            <a>Home</a>
-            <a>Info</a>
-        </nav>
+        <!-- search bar -->
+        <form id="searchbar-form">
+            <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
+            <input id="search-button" type="submit" value="Szukaj"/>
+        </form>
+        <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
     </header>
-
     <main>
-        <aside>
-            <form>
-                <fieldset>
-                    <legend>Filtry</legend>
-
-                    <label for="city">Miasto:</label>
-                    <select name="select_city">
-                        <option value="Gliwice">Gliwice</option>
-                        <option value="Katowice">Katowice</option>
-                        <option value="Siemianowice">Siemianowice Śląskie</option>
-                        <option value="Tychy">Tychy</option>
-                    </select>
-
-                    <label for="cuisine">Kuchnia:</label>
-                    <select name="select_cuisine">
-                        <option value="Wloska">Włoska</option>
-                        <option value="Indyjska">Indyjska</option>
-                        <option value="Chinska">Chińska</option>
-                        <option value="Rozne">Różne</option>
-                    </select>
-
-                    <label for="sort">Sortowanie po:</label>
-                    <select name="select_sort">
-                        <option value="Cena">Cena</option>
-                        <option value="Kuchnia">Kuchnia</option>
-                        <option value="Miasto">Miasto</option>
-                        <option value="Alfabetycznie">Alfabetycznie</option>
-                    </select>
-
-                    <label for="order">Kolejność:</label>
-                    <select name="select_order">
-                        <option value="Rosnaca">Rosnąca</option>
-                        <option value="Malejaca">Malejąca</option>
-                    </select>
-
-                    <input type="submit" value="Filtruj" id="filter_button">
-                    
-                </fieldset>
-            </form>
-            
-        </aside>
-
         <article>
-            <nav id="items_navbar">
-                <label for="Wyszukiwanie">Szukaj restauracji po wybranych filtrach i zadanej frazie</label>
-                <div id="search_section">
-                    <input type="search" id="search_input">
-                    
-                    <input type="submit" id="search_submit" value="Szukaj">
-                </div>
-
-            </nav>
-
-            <div id="items_list">
-
-                <!-- <div id="item"></div>
-                <div id="item"></div>
-                <div id="item"></div>
-                <div id="item"></div> -->
-
-
+            <!-- results -->
+            <div class="result">
+                <section class="result-headers" onclick="funkcja()">
+                    <h2>Masala House</h2>
+                    <h1>Katowice ul. Jana Pawła 2 nr. 6</h1>
+                </section>
+                <table class="result-table">
+                    <tbody>
+                      <tr>
+                        <td>Kuchnia:</td>
+                        <td class="result-table-value">Włoska</td>
+                      </tr>
+                      <tr>
+                        <td>Średnia opinia:</td>
+                        <td class="result-table-value">6/10</td>
+                      </tr>
+                      <tr>
+                        <td>Średnia cena:<br></td>
+                        <td class="result-table-value">25,40zł</td>
+                      </tr>
+                    </tbody>
+                </table>
             </div>
         </article>
+        <aside>
+            <!-- filter -->
+            <form id="filters-form">
+                <div class="select-container">
+                <label>Miasta:</label>
+                <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." multiple class="chosen-select">
+                    <option value="Katowice">Katowice</option>
+                    <option value="Sosnowiec">Sosnowiec</option>
+                </select>
+                </div>
+                <!-- etc -->
+                <div class="select-container">
+                <label>Kuchnia:</label>
+                <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple class="chosen-select">
+                    <option value="Wloska">Włoska</option>
+                    <option value="Indyjska">Indyjska</option>
+                    <option value="Rozne">Różne</option>
+                </select>
+                </div>
+                <label>Opinie:</label>
+                <select name="Opinie">
+                    <option value="Rosnaco">Rosnąco</option>
+                    <option value="Malejaco">Malejąco</option>
+                </select>
+                <label>Ceny:</label>
+                <select name="Ceny">
+                    <option value="Rosnaco">Rosnąco</option>
+                    <option value="Malejaco">Malejąco</option>
+                </select>
+            </form>
+        </aside>
     </main>
 
-    <footer>
-        <img src="Logo.png" alt="Smaczne.pl" class="main_logo">
-        <a href="#top">Powrót na górę strony</a>
-    </footer>
 </body>
