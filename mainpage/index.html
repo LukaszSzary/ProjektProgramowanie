@@ -4,19 +4,20 @@
     <title>Smaczne.pl</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
 </head>
 
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-<script src="chosenSetup.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+    <script src="chosenSetup.js" defer></script>
+
 
     <header>
         <!-- search bar -->
         <form id="searchbar-form">
             <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
-            <input id="search-button" type="submit" value="Szukaj"/>
+            <input id="search-button" type="submit" value="Szukaj" />
         </form>
         <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
     </header>
@@ -30,18 +31,18 @@
                 </section>
                 <table class="result-table">
                     <tbody>
-                      <tr>
-                        <td>Kuchnia:</td>
-                        <td class="result-table-value">Włoska</td>
-                      </tr>
-                      <tr>
-                        <td>Średnia opinia:</td>
-                        <td class="result-table-value">6/10</td>
-                      </tr>
-                      <tr>
-                        <td>Średnia cena:<br></td>
-                        <td class="result-table-value">25,40zł</td>
-                      </tr>
+                        <tr>
+                            <td>Kuchnia:</td>
+                            <td class="result-table-value">Włoska</td>
+                        </tr>
+                        <tr>
+                            <td>Średnia opinia:</td>
+                            <td class="result-table-value">6/10</td>
+                        </tr>
+                        <tr>
+                            <td>Średnia cena:<br></td>
+                            <td class="result-table-value">25,40zł</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -50,23 +51,25 @@
             <!-- filter -->
             <form id="filters-form">
                 <div class="select-container">
-                <label>Miasta:</label>
-                <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." multiple class="chosen-select">
-                    <option value="Katowice">Katowice</option>
-                    <option value="Sosnowiec">Sosnowiec</option>
-                </select>
+                    <label>Miasta:</label>
+                    <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." multiple
+                        class="chosen-select">
+                        <option value="Katowice">Katowice</option>
+                        <option value="Sosnowiec">Sosnowiec</option>
+                    </select>
                 </div>
                 <!-- etc -->
                 <div class="select-container">
-                <label>Kuchnia:</label>
-                <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple class="chosen-select">
-                    <option value="Wloska">Włoska</option>
-                    <option value="Indyjska">Indyjska</option>
-                    <option value="Rozne">Różne</option>
-                </select>
+                    <label>Kuchnia:</label>
+                    <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple
+                        class="chosen-select">
+                        <option value="Wloska">Włoska</option>
+                        <option value="Indyjska">Indyjska</option>
+                        <option value="Rozne">Różne</option>
+                    </select>
                 </div>
                 <label>Opinie:</label>
-                <select name="Opinie">
+                <select name="Opinie" id="select-opinion">
                     <option value="Rosnaco">Rosnąco</option>
                     <option value="Malejaco">Malejąco</option>
                 </select>
@@ -75,6 +78,7 @@
                     <option value="Rosnaco">Rosnąco</option>
                     <option value="Malejaco">Malejąco</option>
                 </select>
+                <script src="script.js"></script>
             </form>
         </aside>
     </main>
