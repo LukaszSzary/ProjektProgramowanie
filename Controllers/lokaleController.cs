@@ -58,7 +58,7 @@ namespace ProjektProgramowanie.Controllers
         //Parametry begin/endScopeCena określają przedział cenowy, który musi spełnić przynajmniej jedno danie w lokalu, 
         //jeśli będą null to begin. zostanie ustawony na 0 a end. na maksymalną wartość dla doubla 
         // zwraca  z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
-      //LUB  lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
+      //i  lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
         //zwraca obiekt dziedziczący po lokale z dodaną średnią ceną i opinią lokalu 
         [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena},{phrase}")]
         public async Task<ActionResult<IEnumerable<lokaleToReturn>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena,string? phrase)
@@ -150,20 +150,18 @@ namespace ProjektProgramowanie.Controllers
                 }
             }
 
-            
+            if (lokaleAfterAllFiltrations == null)
+            {
+                return NotFound();
+            }
 
             //zwraca lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
             if (phrase != null)
             {
                 string[] words = phrase.Split(' ');
 
-                var lokalePhrase = await _context.lokale.ToListAsync();
-                if (lokalePhrase == null)
-                {
-                    return NotFound();
-                }
-
-                foreach (lokale loc in lokalePhrase)
+                List<lokale> temporaryLokale=new List<lokale>();
+                foreach (lokale loc in lokaleAfterAllFiltrations)
                 {
                     string nazwaMiastoKuchnia = (loc.Nazwa + loc.Kuchnia + loc.Miasto + loc.Adres).ToLower();
 
@@ -171,11 +169,12 @@ namespace ProjektProgramowanie.Controllers
                     {
                         if (nazwaMiastoKuchnia.Contains(word.ToLower()))
                         {
-                            lokaleAfterAllFiltrations.Add(loc);
+                            temporaryLokale.Add(loc);
                             break;
                         }
                     }
                 }
+                lokaleAfterAllFiltrations = temporaryLokale;
             }
 
             if (lokaleAfterAllFiltrations == null)
@@ -183,13 +182,10 @@ namespace ProjektProgramowanie.Controllers
                 return NotFound();
             }
 
-            List<lokale> lokaleToBuildLokaleToReturn = lokaleAfterAllFiltrations.Distinct().ToList();
 
-
-
-            //Tworzy listę obiektów lokaleToReturn(lokale + avgOcena + avgCena) na podstawie listy lokaleToBuildLokaleToReturn
+            //Tworzy listę obiektów lokaleToReturn(lokale + avgOcena + avgCena) na podstawie listy lokaleAfterAllFiltrations
             List<lokaleToReturn> ListLokaleToReturn = new List<lokaleToReturn>();
-            foreach (lokale lokal in lokaleToBuildLokaleToReturn)
+            foreach (lokale lokal in lokaleAfterAllFiltrations)
             {
                 double avgOcena = 0.00d;
                 var opinie = await _context.opinie.Where(b => b.LokaleId == lokal.LokaleId).ToListAsync();
