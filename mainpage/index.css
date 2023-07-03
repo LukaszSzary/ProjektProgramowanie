@@ -119,7 +119,9 @@ aside select {
     border: 2px gray solid;
     border-radius: 5px;
     padding: 1%;
+    text-decoration: none;
 }
+
 
 .result:hover {
     cursor: pointer;

@@ -25,44 +25,44 @@
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
 
     <script src="chosenSetup.js" defer></script>
+    <script src="fetch.js" defer></script>
+    <script src="divbuilder.js" defer></script>
     </head>
 
     <body>
-
         <header>
             <!-- search bar -->
-            <form id="searchbar-form">
-                <input type="text" id="search-bar" name="search-bar"
-                    placeholder="Szukaj lokali po frazach kluczowych..." />
-                <input id="search-button" type="submit" value="Szukaj" />
-            </form>
+            <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
+            <input id="search-button" type="submit" value="Szukaj" onclick="search()" />
             <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
         </header>
         <main>
-            <article>
+            <article id="result-container">
                 <!-- results -->
-                <div class="result">
-                    <section class="result-headers" onclick="funkcja()">
-                        <h2>Masala House</h2>
-                        <h1>Katowice ul. Jana Pawła 2 nr. 6</h1>
-                    </section>
-                    <table class="result-table">
-                        <tbody>
-                            <tr>
-                                <td>Kuchnia:</td>
-                                <td class="result-table-value">Włoska</td>
-                            </tr>
-                            <tr>
-                                <td>Średnia opinia:</td>
-                                <td class="result-table-value">6/10</td>
-                            </tr>
-                            <tr>
-                                <td>Średnia cena:<br></td>
-                                <td class="result-table-value">25,40zł</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <!-- przykład
+            <div class="result">
+                <section class="result-headers" onclick="funkcja()">
+                    <h2>Masala House</h2>
+                    <h1>Katowice ul. Jana Pawła 2 nr. 6</h1>
+                </section>
+                <table class="result-table">
+                    <tbody>
+                      <tr>
+                        <td>Kuchnia:</td>
+                        <td class="result-table-value">Włoska</td>
+                      </tr>
+                      <tr>
+                        <td>Średnia opinia:</td>
+                        <td class="result-table-value">6/10</td>
+                      </tr>
+                      <tr>
+                        <td>Średnia cena:<br></td>
+                        <td class="result-table-value">25,40zł</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        -->
             </article>
             <aside>
                 <!-- filter -->
@@ -81,7 +81,7 @@
                         <label>Kuchnia:</label>
                         <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple
                             class="chosen-select">
-                            <option value="Wloska">Włoska</option>
+                            <option value="Włoska">Włoska</option>
                             <option value="Indyjska">Indyjska</option>
                             <option value="Rozne">Różne</option>
                         </select>
@@ -94,7 +94,7 @@
                     </select>
 
                     <label>Ceny:</label>
-                    <select name="Ceny">
+                    <select name="Ceny" id="select-price">
                         <option value="Rosnaco">Rosnąco</option>
                         <option value="Malejaco">Malejąco</option>
                     </select>
@@ -106,8 +106,86 @@
 
                     <div id="slider-range"></div>
 
-                </form>
-            </aside>
-        </main>
+                    <header>
+                        <!-- search bar -->
+                        <form id="searchbar-form">
+                            <input type="text" id="search-bar" name="search-bar"
+                                placeholder="Szukaj lokali po frazach kluczowych..." />
+                            <input id="search-button" type="submit" value="Szukaj" />
+                        </form>
+                        <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
+                    </header>
+                    <main>
+                        <article>
+                            <!-- results -->
+                            <div class="result">
+                                <section class="result-headers" onclick="funkcja()">
+                                    <h2>Masala House</h2>
+                                    <h1>Katowice ul. Jana Pawła 2 nr. 6</h1>
+                                </section>
+                                <table class="result-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Kuchnia:</td>
+                                            <td class="result-table-value">Włoska</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Średnia opinia:</td>
+                                            <td class="result-table-value">6/10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Średnia cena:<br></td>
+                                            <td class="result-table-value">25,40zł</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <aside>
+                            <!-- filter -->
+                            <form id="filters-form">
+                                <div class="select-container">
+                                    <label>Miasta:</label>
+                                    <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." multiple
+                                        class="chosen-select">
+                                        <option value="Katowice">Katowice</option>
+                                        <option value="Sosnowiec">Sosnowiec</option>
+                                    </select>
+                                </div>
+
+                                <!-- etc -->
+                                <div class="select-container">
+                                    <label>Kuchnia:</label>
+                                    <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..."
+                                        multiple class="chosen-select">
+                                        <option value="Wloska">Włoska</option>
+                                        <option value="Indyjska">Indyjska</option>
+                                        <option value="Rozne">Różne</option>
+                                    </select>
+                                </div>
+
+                                <label>Opinie:</label>
+                                <select name="Opinie" id="select-opinion">
+                                    <option value="Rosnaco">Rosnąco</option>
+                                    <option value="Malejaco">Malejąco</option>
+                                </select>
+
+                                <label>Ceny:</label>
+                                <select name="Ceny">
+                                    <option value="Rosnaco">Rosnąco</option>
+                                    <option value="Malejaco">Malejąco</option>
+                                </select>
+
+                                <p>
+                                    <label for="amount">Zakres cenowy:</label>
+                                    <input type="text" id="amount" readonly
+                                        style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+
+                                <div id="slider-range"></div>
+
+                            </form>
+                        </aside>
+                    </main>
 
     </body>
