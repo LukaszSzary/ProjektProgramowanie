@@ -60,18 +60,19 @@ namespace ProjektProgramowanie.Controllers
                 return NotFound();
             }
 
-            var lokal = await _context.lokale.FindAsync(id);
+            var lokal = await _context.lokale.Where(b=>b.LokaleId==id).Include(b => b.Promocje).ToListAsync();
 
-            if (lokal == null || lokal.Promocje == null)
+            if (lokal == null || lokal[0].Promocje == null)
             {
                 return NotFound();
             }
 
             //na podstawie promocji lokalu uzupełnie promocjeToReturn aktualnymi promocjami
-            foreach (promocje promocja in lokal.Promocje) 
+            foreach (promocje promocja in lokal[0].Promocje) 
             {
                 if (DateTime.Compare(promocja.DataRozpoczęcia, DateTime.Now) <= 0 && DateTime.Compare(promocja.DataZakończenia, DateTime.Now) >= 0)
                 {
+                    promocja.Lokale.Clear();
                     promocjeToreturn.Add(promocja);
                 }
             }

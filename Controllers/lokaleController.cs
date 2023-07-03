@@ -58,12 +58,13 @@ namespace ProjektProgramowanie.Controllers
         //Parametry begin/endScopeCena określają przedział cenowy, który musi spełnić przynajmniej jedno danie w lokalu, 
         //jeśli będą null to begin. zostanie ustawony na 0 a end. na maksymalną wartość dla doubla 
         // zwraca  z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
+      //LUB  lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
         //zwraca obiekt dziedziczący po lokale z dodaną średnią ceną i opinią lokalu 
-        [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScope/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena}")]
-        public async Task<ActionResult<IEnumerable<lokaleToReturn>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena)
+        [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena},{phrase}")]
+        public async Task<ActionResult<IEnumerable<lokaleToReturn>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena,string? phrase)
         {
-            List<lokale> lokaleToReturnList = new List<lokale>();
-            List<lokale> lokalePromocjeFiltered = new List<lokale>();
+            List<lokale> lokaleAfterAllFiltrations = new List<lokale>();
+            List<lokale> lokalePromocjeFilteredPromocje = new List<lokale>();
 
             if (_context.lokale == null)
             {
@@ -99,7 +100,7 @@ namespace ProjektProgramowanie.Controllers
             var lokale = await _context.lokale.Where(b =>kuchnia.Contains(b.Kuchnia) && miasto.Contains(b.Miasto)).Include(b => b.Promocje).Include(b=>b.Dania).ToListAsync();
 
 
-            //na bazie listy lokale uzupełnia listę lokalePromocjeFiltered o lokale z aktywnymi promocjami i czyści im listę promocji
+            //na bazie listy lokale uzupełnia listę lokalePromocjeFilteredPromocje o lokale z aktywnymi promocjami i czyści im listę promocji
             if (whetherPromocja)
             {
                 foreach (var lokal in lokale)
@@ -116,7 +117,7 @@ namespace ProjektProgramowanie.Controllers
                     if (activePromocje)
                     {
                         lokal.Promocje.Clear();
-                        lokalePromocjeFiltered.Add(lokal);
+                        lokalePromocjeFilteredPromocje.Add(lokal);
                     }
                 }
             }
@@ -125,13 +126,13 @@ namespace ProjektProgramowanie.Controllers
                 foreach (var lokal in lokale)
                 {
                     lokal.Promocje.Clear();
-                    lokalePromocjeFiltered.Add( lokal);
+                    lokalePromocjeFilteredPromocje.Add( lokal);
                 }
             }
             //________________________
 
-            //na bazie listy lokalePromocjeFiltered uzupełnia listę lokaleToReturn o lokale z przynajmniej jednym daniem w zakresie cenowym i czyści im listę dań
-            foreach (lokale lokal in lokalePromocjeFiltered) 
+            //na bazie listy lokalePromocjeFilteredPromocje uzupełnia listę lokaleToReturn o lokale z przynajmniej jednym daniem w zakresie cenowym i czyści im listę dań
+            foreach (lokale lokal in lokalePromocjeFilteredPromocje) 
             { 
                 bool ifAtLeastOneDanie=false;   
                 foreach(dania danie in lokal.Dania)
@@ -145,17 +146,50 @@ namespace ProjektProgramowanie.Controllers
                 if (ifAtLeastOneDanie)
                 {
                     lokal.Dania.Clear();
-                    lokaleToReturnList.Add(lokal);
+                    lokaleAfterAllFiltrations.Add(lokal);
                 }
             }
 
-            if (lokaleToReturnList == null)
+            
+
+            //zwraca lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
+            if (phrase != null)
+            {
+                string[] words = phrase.Split(' ');
+
+                var lokalePhrase = await _context.lokale.ToListAsync();
+                if (lokalePhrase == null)
+                {
+                    return NotFound();
+                }
+
+                foreach (lokale loc in lokalePhrase)
+                {
+                    string nazwaMiastoKuchnia = (loc.Nazwa + loc.Kuchnia + loc.Miasto + loc.Adres).ToLower();
+
+                    foreach (string word in words)
+                    {
+                        if (nazwaMiastoKuchnia.Contains(word.ToLower()))
+                        {
+                            lokaleAfterAllFiltrations.Add(loc);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (lokaleAfterAllFiltrations == null)
             {
                 return NotFound();
             }
 
+            List<lokale> lokaleToBuildLokaleToReturn = lokaleAfterAllFiltrations.Distinct().ToList();
+
+
+
+            //Tworzy listę obiektów lokaleToReturn(lokale + avgOcena + avgCena) na podstawie listy lokaleToBuildLokaleToReturn
             List<lokaleToReturn> ListLokaleToReturn = new List<lokaleToReturn>();
-            foreach (lokale lokal in lokaleToReturnList)
+            foreach (lokale lokal in lokaleToBuildLokaleToReturn)
             {
                 double avgOcena = 0.00d;
                 var opinie = await _context.opinie.Where(b => b.LokaleId == lokal.LokaleId).ToListAsync();
