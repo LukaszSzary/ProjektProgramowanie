@@ -18,3 +18,5 @@ $( function() {
     $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) + 
       "zł - " + $( "#slider-range" ).slider( "values", 1 ) + "zł" );
   } );
+
+var menu = false;

@@ -15,20 +15,21 @@
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
 
     <script src="chosenSetup.js" defer></script>
+    <script src="fetch.js" defer></script>
+    <script src="divbuilder.js" defer></script>
 </head>
 
 <body>
     <header>
         <!-- search bar -->
-        <form id="searchbar-form">
-            <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
-            <input id="search-button" type="submit" value="Szukaj"/>
-        </form>
+        <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
+        <input id="search-button" type="submit" value="Szukaj" onclick="search()"/>
         <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
     </header>
     <main>
-        <article>
+        <article id="result-container">
             <!-- results -->
+        <!-- przykład
             <div class="result">
                 <section class="result-headers" onclick="funkcja()">
                     <h2>Masala House</h2>
@@ -51,6 +52,7 @@
                     </tbody>
                 </table>
             </div>
+        -->
         </article>
         <aside>
             <!-- filter -->
@@ -67,20 +69,20 @@
                 <div class="select-container">
                 <label>Kuchnia:</label>
                 <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple class="chosen-select">
-                    <option value="Wloska">Włoska</option>
+                    <option value="Włoska">Włoska</option>
                     <option value="Indyjska">Indyjska</option>
                     <option value="Rozne">Różne</option>
                 </select>
                 </div>
 
                 <label>Opinie:</label>
-                <select name="Opinie">
+                <select name="Opinie" id="select-opinion">
                     <option value="Rosnaco">Rosnąco</option>
                     <option value="Malejaco">Malejąco</option>
                 </select>
 
                 <label>Ceny:</label>
-                <select name="Ceny">
+                <select name="Ceny" id="select-price">
                     <option value="Rosnaco">Rosnąco</option>
                     <option value="Malejaco">Malejąco</option>
                 </select>
