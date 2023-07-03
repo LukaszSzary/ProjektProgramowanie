@@ -57,11 +57,12 @@ namespace ProjektProgramowanie.Controllers
         // paramet whetherPromocja określa czy metoda wypiszę lokale z aktywnymi promocjami true=>z false=>obojętnie
         //Parametry begin/endScopeCena określają przedział cenowy, który musi spełnić przynajmniej jedno danie w lokalu, 
         //jeśli będą null to begin. zostanie ustawony na 0 a end. na maksymalną wartość dla doubla 
-        // zwraca lokale z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
+        // zwraca  z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
+        //zwraca obiekt dziedziczący po lokale z dodaną średnią ceną i opinią lokalu 
         [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScope/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena}")]
-        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena)
+        public async Task<ActionResult<IEnumerable<lokaleToReturn>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena)
         {
-            List<lokale> lokaleToReturn = new List<lokale>();
+            List<lokale> lokaleToReturnList = new List<lokale>();
             List<lokale> lokalePromocjeFiltered = new List<lokale>();
 
             if (_context.lokale == null)
@@ -144,16 +145,51 @@ namespace ProjektProgramowanie.Controllers
                 if (ifAtLeastOneDanie)
                 {
                     lokal.Dania.Clear();
-                    lokaleToReturn.Add(lokal);
+                    lokaleToReturnList.Add(lokal);
                 }
             }
 
-            if (lokaleToReturn == null)
+            if (lokaleToReturnList == null)
             {
                 return NotFound();
             }
 
-            return lokaleToReturn;
+            List<lokaleToReturn> ListLokaleToReturn = new List<lokaleToReturn>();
+            foreach (lokale lokal in lokaleToReturnList)
+            {
+                double avgOcena = 0.00d;
+                var opinie = await _context.opinie.Where(b => b.LokaleId == lokal.LokaleId).ToListAsync();
+
+                if (opinie == null)
+                {
+                    return NotFound();
+                }
+
+                foreach (opinie op in opinie)
+                {
+                    avgOcena += op.Ocena;
+                }
+                avgOcena = avgOcena / opinie.Count();
+
+                double avgCena = 0.00d;
+                int howMany = 0;
+                
+                var dania = await _context.dania.Where(b => b.Lokale.Contains(lokal)).ToListAsync();
+
+                if (dania == null)
+                {
+                    return NotFound();
+                }
+
+                foreach (var danie in dania)
+                {   
+                        avgCena += danie.Cena;
+                        howMany++;
+                }
+                avgCena = avgCena / howMany;
+                ListLokaleToReturn.Add(new lokaleToReturn(lokal, String.Format("{0:0.##}", avgOcena), String.Format("{0:0.00}", avgCena)));
+            }
+            return ListLokaleToReturn;
         }
         
         
