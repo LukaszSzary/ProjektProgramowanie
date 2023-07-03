@@ -217,24 +217,41 @@ namespace ProjektProgramowanie.Controllers
             return await _context.lokale.Select(x => x.Kuchnia).Distinct().ToListAsync();
         }
 
-        //zwraca lokale, których nazwa zawiera podany parametr 
-        [HttpGet("GetlokaleByNazwa/{nazwa}")]
-        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByNazwa(string nazwa)
+        //zwraca lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument 
+        [HttpGet("GetlokaleByPhrase/{phrase}")]
+        public async Task<ActionResult<IEnumerable<lokale>>> GetlokaleByPhrase(string phrase)
         {
+            List<lokale> lokaleToReturn = new List<lokale>();
             if (_context.lokale == null)
             {
                 return NotFound();
 
             }
 
-            var lokale = await _context.lokale.Where(b => b.Nazwa.ToLower().Contains(nazwa.ToLower())).ToListAsync();
+            string[] words = phrase.Split(' ');
 
-            if (lokale == null)
+            var lokale = await _context.lokale.ToListAsync();
+
+            foreach(lokale loc in lokale)
+            {
+                string nazwaMiastoKuchnia = (loc.Nazwa + loc.Kuchnia + loc.Miasto+loc.Adres).ToLower();
+
+                foreach(string word in words)
+                {
+                    if (nazwaMiastoKuchnia.Contains(word.ToLower()))
+                    {
+                        lokaleToReturn.Add(loc);
+                        break;
+                    }
+                }          
+            }
+
+            if (lokaleToReturn == null)
             {
                 return NotFound();
             }
 
-            return lokale;
+            return lokaleToReturn;
         }
         private bool lokaleExists(int id)
         {
