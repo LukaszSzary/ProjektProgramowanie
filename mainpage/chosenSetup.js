@@ -3,14 +3,17 @@ $(".chosen-select").chosen({
     width: "95%",
     no_results_text: "Empty",
 
-}); 
+});
+
+fetchCityOptions();
+fetchCuisineOptions();
 
 $( function() {
     $( "#slider-range" ).slider({
       range: true,
-      min: 0,
-      max: 300,
-      values: [ 20, 100 ],
+      min: 20,
+      max: 100,
+      values: [ 30, 50 ],
       slide: function( event, ui ) {
         $( "#amount" ).val(ui.values[ 0 ] + "zł - " + ui.values[ 1 ] + "zł");
       }
