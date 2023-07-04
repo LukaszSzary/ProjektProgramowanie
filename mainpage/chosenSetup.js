@@ -13,7 +13,7 @@ $( function() {
       range: true,
       min: 20,
       max: 100,
-      values: [ 30, 50 ],
+      values: [ 20, 50 ],
       slide: function( event, ui ) {
         $( "#amount" ).val(ui.values[ 0 ] + "zł - " + ui.values[ 1 ] + "zł");
       }
@@ -21,5 +21,3 @@ $( function() {
     $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) + 
       "zł - " + $( "#slider-range" ).slider( "values", 1 ) + "zł" );
   } );
-
-var menu = false;
