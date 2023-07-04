@@ -15,16 +15,16 @@
     <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
 
+    <script src="fetch.js" defer></script>
     <script src="chosenSetup.js" defer></script>
     <script src="divbuilder.js" defer></script>
-    <script src="fetch.js" defer></script>
 </head>
 
 <body onload="fetchDania(getIdLokalu());">
     <header>
         <!-- search bar -->
         <input type="text" id="search-bar" name="search-bar" placeholder="Szukaj lokali po frazach kluczowych..." />
-        <input id="search-button" type="submit" value="Szukaj" onclick="search()"/>
+        <input id="search-button" type="submit" value="Szukaj" onclick="fetchLokale(getFilters());" />
         <img class="logo" src="Logo.png" alt="Logo: Smaczne.pl">
     </header>
     <main>
@@ -32,52 +32,10 @@
             <div id="opinions-menu">
                 <p onclick="fetchOpinie(getIdLokalu())">Opinie</p>
                 <p onclick="fetchDania(getIdLokalu())">Menu</p>
+                <p onclick="fetchPromocje(getIdLokalu())">Promocje</p>
             </div>
             <div id="result-container">
             <!-- results -->
-
-            <!-- przykład
-            <div class="result-dish">
-                <table class="result-dish-table">
-                    <tbody>
-                      <tr class="dish-headers">
-                        <td>Pizza po Węgiersku</td>
-                        <td class="dish-price">32,26zł</td>
-                      </tr>
-                      <tr>
-                        <td class="dish-desc" colspan="2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="result-opinion">
-                <table class="result-opinion-table">
-                    <tbody>
-                      <tr>
-                        <td class="opinion-user" colspan="2">Major Suchodolski</td>
-                      </tr>
-                      <tr>
-                        <td class="opinion-rating">6/10</td>
-                        <td class="opinion-date">2023-12-25</td>
-                      </tr>
-                      <tr>
-                        <td class="opinion-desc" colspan="2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-            -->
             </div>
         </article>
         <aside>
@@ -85,39 +43,28 @@
             <form id="filters-form">
                 <div class="select-container">
                 <label>Miasta:</label>
-                <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." multiple class="chosen-select">
-                    <option value="Katowice">Katowice</option>
-                    <option value="Sosnowiec">Sosnowiec</option>
+                <select id="select-city" name="Miasta" data-placeholder="Wybierz miasta..." 
+                    multiple class="chosen-select">
                 </select>
                 </div>
 
                 <!-- etc -->
                 <div class="select-container">
                 <label>Kuchnia:</label>
-                <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." multiple class="chosen-select">
-                    <option value="Włoska">Włoska</option>
-                    <option value="Indyjska">Indyjska</option>
-                    <option value="Rozne">Różne</option>
+                <select id="select-cuisine" name="Kuchnia" data-placeholder="Wybierz kuchnie..." 
+                    multiple class="chosen-select">
                 </select>
                 </div>
 
-                <label>Opinie:</label>
-                <select name="Opinie">
-                    <option value="Rosnaco">Rosnąco</option>
-                    <option value="Malejaco">Malejąco</option>
-                </select>
-
-                <label>Ceny:</label>
-                <select name="Ceny">
-                    <option value="Rosnaco">Rosnąco</option>
-                    <option value="Malejaco">Malejąco</option>
-                </select>
+                <div class="select-container">
+                    <label>Promocje:</label>
+                    <input type="checkbox" name="Promocje" id="promotion-check">Aktywne
+                </div>
 
                 <p>
                     <label for="amount">Zakres cenowy:</label>
                     <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                </p>
-                   
+                </p>                   
                 <div id="slider-range"></div>
 
             </form>

@@ -62,3 +62,20 @@ function buildOpinia(e) {
     </div>
     `
 }
+
+function buildPromocja(e) {
+    return `
+    <div class="result-promotion">
+        <table class="result-promotion-table">
+            <tbody>
+                <tr class="promotion-time">
+                    <td>${e.dataRozpoczęcia.substr(0, 10)}</td>
+                    <td>${e.dataZakończenia.substr(0, 10)}</td>
+                </tr>
+                <tr>
+                    <td class="opinion-rating">${e.opis}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>`
+}
