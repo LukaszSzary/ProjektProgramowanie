@@ -13,11 +13,11 @@ function buildLokal(e) {
             </tr>
             <tr>
                 <td>Średnia opinia:</td>
-                <td class='result-table-value'>6/10</td>
+                <td class='result-table-value'>${e.avgOcena}/5</td>
             </tr>
             <tr>
                 <td>Średnia cena:<br></td>
-                <td class='result-table-value'>25,40zł</td>
+                <td class='result-table-value'>${e.avgCena}zł</td>
             </tr>
             </tbody>
         </table>
@@ -51,11 +51,11 @@ function buildOpinia(e) {
                     <td class="opinion-user" colspan="2">${e.autor}</td>
                 </tr>
                 <tr>
-                    <td class="opinion-rating">${e.ocena}/10</td>
+                    <td class="opinion-rating">${e.ocena}/5</td>
                     <td class="opinion-date">${e.dataWystawienia.substr(0, 10)}</td>
                 </tr>
                 <tr>
-                    <td class="opinion-desc" colspan="2">${e.opinia}</td>
+                    <td class="opinion-desc" colspan="2">${e.opinia}5</td>
                 </tr>
             </tbody>
         </table>
