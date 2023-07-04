@@ -60,7 +60,7 @@ namespace ProjektProgramowanie.Controllers
         // zwraca  z daną kuchnią i miastem z przynajmniej jednym daniem z podanego zakresu, w zależności od parametru whetherPromocja, z przynajmniej jedną aktywną promocją 
       //i  lokale, których połączona nazwa, kuchnia, adres, miasto zawiera przynajmniej jedno ze słów ze zdania podanego jako argument
         //zwraca obiekt dziedziczący po lokale z dodaną średnią ceną i opinią lokalu 
-        [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena}")]
+        [HttpGet("GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/{kuchnia},{miasto},{whetherPromocja},{beginScopeCena},{endScopeCena},{phrase}")]
         public async Task<ActionResult<IEnumerable<lokaleToReturn>>> GetlokaleByKuchniaMiastoPromocjaCenaScope(string? kuchnia,string? miasto,bool whetherPromocja,double? beginScopeCena,double? endScopeCena,string? phrase)
         {
             List<lokale> lokaleAfterAllFiltrations = new List<lokale>();
