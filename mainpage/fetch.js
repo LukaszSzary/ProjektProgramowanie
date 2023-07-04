@@ -8,6 +8,7 @@ function getCities() {
     });
     return selectedCityOptions.toString().replace(',','');
 }
+
 function getCuisines() {
 
     let selectCuisineElement = document.getElementById("select-cuisine");
@@ -17,12 +18,15 @@ function getCuisines() {
     return selectedCuisineOptions.toString().replace(',','');
 }
 
-function fetchLokale(obj) {
-    if (currentView == "Lokale") return;
+function getIdLokalu() {
+    let loc = document.location;
+    return loc.search.replace("?id=","");
+}
 
+function fetchLokale(obj) {
     $.ajax({
         url: `https://localhost:7280/api/lokale/GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/` + 
-        `${obj.cuisines},${obj.cities},${obj.promotion},${obj.minPrice},${obj.maxPrice}?phrase=${obj.phrase}/`,
+        `${obj.cuisines},${obj.cities},${obj.promotion},${obj.minPrice},${obj.maxPrice},${obj.phrase}/`,
         type: "GET",
         success: function(response){
             console.log(response);  
@@ -30,7 +34,6 @@ function fetchLokale(obj) {
             response.forEach(e => 
                 document.getElementById("result-container").innerHTML += buildLokal(e)
             );
-            currentView = "Lokale";
         },
     });
 }
@@ -46,11 +49,6 @@ function getFilters() {
         phrase: document.getElementById("search-bar").value + " "
     }
     return obj;
-}
-
-function getIdLokalu() {
-    let loc = document.location;
-    return loc.search.replace("?id=","");
 }
 
 function fetchDania(id) {
@@ -130,23 +128,6 @@ function fetchCuisineOptions() {
                 $("#select-cuisine").append(`<option value='${e}'>${e}</option>`)
             );
             $("#select-cuisine").trigger("chosen:updated");
-        },
-    });
-}
-
-function fetchAllLokale(obj) {
-    if (currentView == "AllLokale") return;
-
-    $.ajax({
-        url: `https://localhost:7280/api/lokale/`,
-        type: "GET",
-        success: function(response){
-            console.log(response);  
-            document.getElementById("result-container").innerHTML = "";
-            response.forEach(e => 
-                document.getElementById("result-container").innerHTML += buildLokal(e)
-            );
-            currentView = "AllLokale";
         },
     });
 }
