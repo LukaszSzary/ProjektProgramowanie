@@ -55,7 +55,7 @@ function buildOpinia(e) {
                     <td class="opinion-date">${e.dataWystawienia.substr(0, 10)}</td>
                 </tr>
                 <tr>
-                    <td class="opinion-desc" colspan="2">${e.opinia}5</td>
+                    <td class="opinion-desc" colspan="2">${e.opinia}</td>
                 </tr>
             </tbody>
         </table>
