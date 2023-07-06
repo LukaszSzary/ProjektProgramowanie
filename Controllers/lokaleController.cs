@@ -174,9 +174,14 @@ namespace ProjektProgramowanie.Controllers
                         }
                     }
                 }
-                lokaleAfterAllFiltrations = temporaryLokale;
-            }
+                
+                if (temporaryLokale != null) {
+                    lokaleAfterAllFiltrations.Clear();
+                    lokaleAfterAllFiltrations = temporaryLokale;
 
+                }
+            }
+            
             if (lokaleAfterAllFiltrations == null)
             {
                 return NotFound();
