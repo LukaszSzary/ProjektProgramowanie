@@ -24,6 +24,8 @@ function getIdLokalu() {
 }
 
 function fetchLokale(obj) {
+    console.log(obj);
+
     $.ajax({
         url: `https://localhost:7280/api/lokale/GetlokaleByKuchniaMiastoPromocjaCenaScopePhrase/` + 
         `${obj.cuisines},${obj.cities},${obj.promotion},${obj.minPrice},${obj.maxPrice},${obj.phrase}/`,
@@ -46,8 +48,11 @@ function getFilters() {
         minPrice: values[0],
         maxPrice: values[1],
         promotion: document.getElementById("promotion-check").checked,
-        phrase: document.getElementById("search-bar").value + " "
+        phrase: document.getElementById("search-bar").value
     }
+    if (obj.phrase.length <= 1)
+        obj.phrase = " ";
+
     return obj;
 }
 

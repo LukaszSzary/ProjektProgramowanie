@@ -37,6 +37,9 @@ header {
     height: 100%;
 }
 
+.logo:hover {
+    cursor: pointer;
+}
 
 /* =============== main =============== */
 
